@@ -13,7 +13,7 @@
   "scripts": {
     "check-types": "tsc",
     "build": "yarn build-lib && yarn build-docs && yarn build-types",
-    "build-docs": "typedoc ./src/promise.ts ./src/deferred.ts ./src/timer.ts",
+    "build-docs": "typedoc ./src/promise.ts ./src/deferred.ts ./src/timer.ts && touch ./docs/.nojekyll",
     "build-lib": "rollup -c",
     "build-types": "tsc -p tsconfig.build.json ",
     "format": "prettier-eslint --write \"**/*.js\"",

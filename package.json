@@ -9,7 +9,7 @@
   "main": "dist/common/async.js",
   "module": "dist/es/async.js",
   "browser": "dist/async.js",
-  "types": "dist/types/async.d.ts",
+  "types": "dist/types/index.d.ts",
   "scripts": {
     "check-types": "tsc",
     "build": "yarn build-lib && yarn build-docs && yarn build-types",

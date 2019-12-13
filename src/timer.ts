@@ -5,7 +5,7 @@
  * -------------------------------------------------------------------------- */
 
 // lib
-import Promise, { PromiseReject, PromiseResolve } from './promise'
+import LazyPromise from './lazy-promise'
 
 /* -----------------------------------------------------------------------------
  * Timer
@@ -41,26 +41,15 @@ export interface TimerCompleted {
   duration: null
 }
 
-export default class Timer extends Promise<undefined> {
+export default class Timer extends LazyPromise<undefined> {
   static create (duration: number) {
     return new Timer(duration)
   }
 
   private _state: TimerWaiting | TimerRunning | TimerPaused | TimerCompleted
-  private _resolve: PromiseResolve
-  private _reject: PromiseReject
 
   constructor (duration: number) {
-    let _resolve: PromiseResolve = () => undefined
-    let _reject: PromiseReject = () => undefined
-
-    super((resolve, reject) => {
-      _resolve = resolve
-      _reject = reject
-    })
-
-    this._resolve = _resolve
-    this._reject = _reject
+    super()
 
     this._state = {
       status: TimerStatus.READY,

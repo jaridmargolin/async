@@ -12,14 +12,8 @@ import Promise, { PromiseReject, PromiseResolve } from './promise'
  * -------------------------------------------------------------------------- */
 
 export type EventEmitter = {
-  on: (
-    event: string | symbol,
-    listener: (...args: any[]) => void
-  ) => EventEmitter
-  off: (
-    event: string | symbol,
-    listener: (...args: any[]) => void
-  ) => EventEmitter
+  on: (event: string, listener: (...args: any[]) => void) => EventEmitter
+  off: (event: string, listener: (...args: any[]) => void) => EventEmitter
 }
 
 export enum EventListenerStatus {
@@ -31,10 +25,7 @@ export enum EventListenerStatus {
 export default class EventListener<Target extends EventEmitter> extends Promise<
   any
   > {
-  static create<Target extends EventEmitter> (
-    target: Target,
-    event: string | symbol
-  ) {
+  static create<Target extends EventEmitter> (target: Target, event: string) {
     return new EventListener(target, event)
   }
 
@@ -42,10 +33,10 @@ export default class EventListener<Target extends EventEmitter> extends Promise<
   private _resolve: PromiseResolve
   private _reject: PromiseReject
   private _target: Target
-  private _event: string | symbol
+  private _event: string
   private _onEvent: (evt: any) => any
 
-  constructor (target: Target, event: string | symbol) {
+  constructor (target: Target, event: string) {
     let _resolve: PromiseResolve = () => undefined
     let _reject: PromiseReject = () => undefined
 

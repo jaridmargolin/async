@@ -15,6 +15,18 @@ export type PromiseExecutor<ResolveType = any> = (
   reject: PromiseReject
 ) => void
 
+export type PromiseOnFulfilled<InputType, OutputType> =
+  | ((value: InputType) => OutputType | PromiseLike<OutputType>)
+  | undefined
+  | null
+
+export type PromiseOnRejected<OutputType> =
+  | ((reason: any) => OutputType | PromiseLike<OutputType>)
+  | undefined
+  | null
+
+export type PromiseOnFinally = (() => void) | undefined | null
+
 export default class BasePromise<ResolveType = any> {
   private _promise: Promise<ResolveType>
 
@@ -22,15 +34,18 @@ export default class BasePromise<ResolveType = any> {
     this._promise = new Promise<ResolveType>(executor)
   }
 
-  then (...args: Parameters<Promise<ResolveType>['then']>) {
-    return this._promise.then(...args)
+  then<TResult1 = ResolveType, TResult2 = never> (
+    onfulfilled?: PromiseOnFulfilled<ResolveType, TResult1>,
+    onrejected?: PromiseOnRejected<TResult2>
+  ) {
+    return this._promise.then(onfulfilled, onrejected)
   }
 
-  catch (...args: Parameters<Promise<ResolveType>['catch']>) {
-    return this._promise.catch(...args)
+  catch<TResult> (onrejected?: PromiseOnRejected<TResult>) {
+    return this._promise.catch(onrejected)
   }
 
-  finally (...args: Parameters<Promise<ResolveType>['finally']>) {
-    return this._promise.finally(...args)
+  finally (onfinally?: PromiseOnFinally) {
+    return this._promise.finally(onfinally)
   }
 }

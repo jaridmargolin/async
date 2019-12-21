@@ -13,7 +13,7 @@ import Deferred from './deferred'
 
 describe('deferred', function () {
   test('Should resolve deferred.', async () => {
-    const deferred = new Deferred()
+    const deferred = new Deferred<number>()
 
     setTimeout(() => deferred.resolve(1), 0)
     expect(await deferred).toEqual(1)

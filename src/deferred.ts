@@ -12,11 +12,11 @@ import Promise, { PromiseResolve, PromiseReject } from './promise'
  * -------------------------------------------------------------------------- */
 
 export default class Deferred<ResolveType = any> extends Promise<ResolveType> {
-  private _resolve: PromiseResolve
+  private _resolve: PromiseResolve<ResolveType>
   private _reject: PromiseReject
 
   constructor () {
-    let _resolve: PromiseResolve = () => undefined
+    let _resolve: PromiseResolve<ResolveType> = () => undefined
     let _reject: PromiseReject = () => undefined
 
     super((resolve, reject) => {
@@ -28,11 +28,11 @@ export default class Deferred<ResolveType = any> extends Promise<ResolveType> {
     this._reject = _reject
   }
 
-  resolve (...args: Parameters<PromiseResolve>) {
-    this._resolve(...args)
+  resolve (value?: ResolveType | PromiseLike<ResolveType>) {
+    this._resolve(value)
   }
 
-  reject (...args: Parameters<PromiseReject>) {
-    this._reject(...args)
+  reject (reason?: any) {
+    this._reject(reason)
   }
 }

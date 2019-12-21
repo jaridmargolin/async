@@ -1,6 +1,6 @@
 {
   "name": "@inventory/async",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "author": "Jarid Margolin <jaridmargolin@gmail.com>",
   "description": "Promise based async utils.",
   "homepage": "https://github.com/jaridmargolin/async",
